@@ -1,71 +1,57 @@
-"""Calculadora muy sencilla en español.
+import tkinter as tk
 
-Soporta: sumar, restar, multiplicar, dividir y potencia.
-Ejecuta el programa y sigue las instrucciones en pantalla.
-"""
+def add():
+    try:
+        a = float(entry1.get())
+        b = float(entry2.get())
+        result_label.config(text=str(a + b))
+    except ValueError:
+        result_label.config(text="Invalid input")
 
-def pedir_numero(prompt):
-	while True:
-		val = input(prompt)
-		try:
-			return float(val)
-		except ValueError:
-			print("Entrada no válida. Por favor, introduce un número.")
+def subtract():
+    try:
+        a = float(entry1.get())
+        b = float(entry2.get())
+        result_label.config(text=str(a - b))
+    except ValueError:
+        result_label.config(text="Invalid input")
 
+def multiply():
+    try:
+        a = float(entry1.get())
+        b = float(entry2.get())
+        result_label.config(text=str(a * b))
+    except ValueError:
+        result_label.config(text="Invalid input")
 
-def mostrar_menu():
-	print("\n--- Calculadora sencilla ---")
-	print("Operaciones disponibles:")
-	print("  1) sumar (+)")
-	print("  2) restar (-)")
-	print("  3) multiplicar (*)")
-	print("  4) dividir (/)")
-	print("  5) potencia (a^b)")
-	print("  6) salir")
+def divide():
+    try:
+        a = float(entry1.get())
+        b = float(entry2.get())
+        if b == 0:
+            result_label.config(text="Cannot divide by zero")
+        else:
+            result_label.config(text=str(a / b))
+    except ValueError:
+        result_label.config(text="Invalid input")
 
+root = tk.Tk()
+root.title("Simple Calculator")
 
-def main():
-	while True:
-		mostrar_menu()
-		opcion = input("Elige una operación (1-6) o escribe el símbolo (+ - * / ^) : ").strip()
+tk.Label(root, text="Number 1:").grid(row=0, column=0)
+entry1 = tk.Entry(root)
+entry1.grid(row=0, column=1)
 
-		if opcion in ("6", "salir", "exit"):
-			print("Adiós.")
-			break
+tk.Label(root, text="Number 2:").grid(row=1, column=0)
+entry2 = tk.Entry(root)
+entry2.grid(row=1, column=1)
 
-		# Map symbols to choices
-		simbolos = {"+": "1", "-": "2", "*": "3", "/": "4", "^": "5", "**": "5"}
-		if opcion in simbolos:
-			opcion = simbolos[opcion]
+tk.Button(root, text="+", command=add).grid(row=2, column=0)
+tk.Button(root, text="-", command=subtract).grid(row=2, column=1)
+tk.Button(root, text="*", command=multiply).grid(row=3, column=0)
+tk.Button(root, text="/", command=divide).grid(row=3, column=1)
 
-		if opcion not in ("1", "2", "3", "4", "5"):
-			print("Opción no válida. Intenta de nuevo.")
-			continue
+result_label = tk.Label(root, text="")
+result_label.grid(row=4, column=0, columnspan=2)
 
-		a = pedir_numero("Introduce el primer número: ")
-		b = pedir_numero("Introduce el segundo número: ")
-
-		if opcion == "1":
-			resultado = a + b
-			op_text = "+"
-		elif opcion == "2":
-			resultado = a - b
-			op_text = "-"
-		elif opcion == "3":
-			resultado = a * b
-			op_text = "*"
-		elif opcion == "4":
-			op_text = "/"
-			if b == 0:
-				print("Error: división por cero no permitida.")
-				continue
-			resultado = a / b
-		elif opcion == "5":
-			resultado = a ** b
-			op_text = "^"
-
-		print(f"Resultado: {a} {op_text} {b} = {resultado}")
-
-
-if __name__ == "__main__":
-	main()
+root.mainloop()
